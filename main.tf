@@ -38,7 +38,7 @@ variable "subnet_prefix" {
 
 variable "instance_type" {
   description = "EC2 Instance type"
-  default     = "t2.small"
+  default     = "t2.micro"
 }
 
 variable "instance_ami" {
