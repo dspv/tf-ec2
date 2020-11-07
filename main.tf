@@ -15,6 +15,8 @@ terraform {
 ### Configure the AWS Provider
 provider "aws" {
   region = var.aws_region
+  access_key = "AWS_ACCESS_KEY"
+  secret_key = "AWS_SECRET_KEY"
 }
 
 
@@ -23,32 +25,32 @@ provider "aws" {
 ##########################
 variable "aws_region" {
   description = "AWS Region to spin up everything at"
-  default = "eu-central-1"
+  default     = "eu-central-1"
 }
 
 variable "availability_zone" {
   description = "Main AZ where to spin up our EC2 instance"
-  default = "eu-central-1a"
+  default     = "eu-central-1a"
 }
 
 variable "subnet_prefix" {
   description = "CIDR block for subnet"
-  default = "10.0.1.0/24"
+  default     = "10.0.1.0/24"
 }
 
 variable "instance_type" {
   description = "EC2 Instance type"
-  default = "t2.micro"
+  default     = "t2.micro"
 }
 
 variable "instance_ami" {
   description = "AMI for EC2 instance"
-  default = "ami-00a205cb8e06c3c4e"
+  default     = "ami-00a205cb8e06c3c4e"
 }
 
 variable "ssh_key_name" {
   description = "Your SSH key name"
-  default = "dspv1"
+  default     = "dspv1"
 }
 
 ###############
@@ -82,8 +84,8 @@ resource "aws_route_table" "prod-route-table" {
   }
 
   route {
-    ipv6_cidr_block        = "::/0"
-    gateway_id = aws_internet_gateway.prod-igw.id
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.prod-igw.id
   }
 
   tags = {
@@ -128,7 +130,7 @@ resource "aws_security_group" "allow_web" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }  
+  }
 
   ingress {
     description = "SSH"
@@ -156,10 +158,10 @@ resource "aws_network_interface" "web-server-nic" {
   private_ips     = ["10.0.1.50"]
   security_groups = [aws_security_group.allow_web.id]
 
-#  attachment {
-#    instance     = aws_instance.test.id
-#    device_index = 1
-#  }
+  #  attachment {
+  #    instance     = aws_instance.test.id
+  #    device_index = 1
+  #  }
 }
 
 ### 8. Assign an EIP to the network interface create on step 7
@@ -176,11 +178,11 @@ resource "aws_instance" "web-server-instance" {
   instance_type     = var.instance_type
   availability_zone = var.availability_zone
   key_name          = var.ssh_key_name
-  
+
   root_block_device {
-    volume_size       = "30"
+    volume_size = "30"
   }
-  
+
   network_interface {
     device_index         = 0
     network_interface_id = aws_network_interface.web-server-nic.id
