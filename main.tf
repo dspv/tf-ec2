@@ -110,7 +110,7 @@ resource "aws_route_table_association" "a" {
   route_table_id = aws_route_table.prod-route-table.id
 }
 
-### 6. Secutury Group to allow ports 22, 80, 443
+### 6. Secutury Group to allow ports 22, 80, 443, 5000, 5001
 resource "aws_security_group" "allow_web" {
   name        = "allow_web_traffic"
   description = "Allow WEB traffic"
