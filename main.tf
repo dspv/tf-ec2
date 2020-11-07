@@ -140,6 +140,23 @@ resource "aws_security_group" "allow_web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Port 5000"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Port 5001"
+    from_port   = 5001
+    to_port     = 5001
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -206,6 +223,10 @@ resource "aws_instance" "web-server-instance" {
               sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
               docker-compose version
+              # --- Install a 'Simple Voting App'
+              git clone https://github.com/dockersamples/example-voting-app.git
+              cd example-voting-app
+              docker-compose up
               EOF
 
   tags = {
