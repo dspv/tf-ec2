@@ -1,3 +1,14 @@
+# How to use
+- Clone this repo
+- Run `terraform apply`
+- Add *terraform.tfvars* file and set up your variables (default values are in *main.tf*)
+
+## Requirements
+| Name      | Version   |
+|-----------|-----------|
+| terraform | >= 0.12.0 |
+| aws       | ~> 2.0    |
+
 ## Simple EC2
 Spins a simple EC2 instance
 Installs:
